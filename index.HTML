@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System | Ultra Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="toast" class="toast hidden"></div>
+
+    <div class="bg-glow glow-1"></div>
+    <div class="bg-glow glow-2"></div>
+
+    <div class="header">
+        <header class="navbar">
+    <div class="nav-brand">
+        <div class="brand-icon">
+            <i class="fa-solid fa-book-open-reader"></i>
+        </div>
+        <div class="brand-text">
+            <h1>Library Central</h1>
+            <span class="brand-sub">Management System</span>
+        </div>
+    </div>
+
+    <div class="nav-actions">
+        <button id="theme-toggle" class="btn-icon" title="Toggle Theme">
+            <i class="fa-solid fa-moon"></i>
+        </button>
+        <div class="profile-badge">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span>Final Project</span>
+        </div>
+    </div>
+</header>
+    </div>
+    
+
+    <main class="main-container">
+
+        <aside class="sidebar">
+            
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon total"><i class="fa-solid fa-layer-group"></i></div>
+                    <div>
+                        <h3 id="stat-total">0</h3>
+                        <p>Total Books</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon available"><i class="fa-solid fa-circle-check"></i></div>
+                    <div>
+                        <h3 id="stat-available">0</h3>
+                        <p>Available</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon issued"><i class="fa-solid fa-arrow-right-arrow-left"></i></div>
+                    <div>
+                        <h3 id="stat-issued">0</h3>
+                        <p>Issued</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="glass-card form-card">
+                <div class="card-header">
+                    <h2 id="form-heading"><i class="fa-solid fa-square-plus"></i> Add New Book</h2>
+                </div>
+                
+                <form id="book-form">
+                    <input type="hidden" id="edit-index" value="-1">
+
+                    <div class="form-group">
+                        <label for="bookTitle">Book Title *</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-book"></i>
+                            <input type="text" id="bookTitle" placeholder="e.g. Master JavaScript" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="authorName">Author Name *</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-user-pen"></i>
+                            <input type="text" id="authorName" placeholder="e.g. Talal Ahmed" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="category">Category *</label>
+                            <select id="category" required>
+                                <option value="">Select Genre</option>
+                                <option value="Programming">Programming</option>
+                                <option value="Fiction">Fiction</option>
+                                <option value="Science">Science</option>
+                                <option value="History">History</option>
+                                <option value="Biography">Biography</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="isbnNumber">ISBN / ID *</label>
+                            <input type="text" id="isbnNumber" placeholder="e.g. 978-01" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="publicationYear">Year *</label>
+                            <input type="number" id="publicationYear" placeholder="2026" min="1000" max="2099" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="availabilityStatus">Status *</label>
+                            <select id="availabilityStatus" required>
+                                <option value="Available">Available</option>
+                                <option value="Issued">Issued</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" id="save-btn" class="btn btn-primary">
+                            <i class="fa-solid fa-floppy-disk"></i> Save Book
+                        </button>
+                        <button type="button" id="cancel-btn" class="btn btn-secondary hidden">
+                            <i class="fa-solid fa-xmark"></i> Cancel
+                        </button>
+                    </div>
+                </form>
+            </section>
+        </aside>
+
+        <section class="glass-card display-card">
+            <div class="display-header">
+                <div>
+                    <h2><i class="fa-solid fa-boxes-stacked"></i> Book Inventory</h2>
+                    <p class="sub-text">Manage, search and filter library assets in real-time</p>
+                </div>
+                
+                <div class="controls-bar">
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="searchInput" placeholder="Search title, author...">
+                    </div>
+
+                    <select id="filterCategory" class="select-filter">
+                        <option value="All">All Categories</option>
+                        <option value="Programming">Programming</option>
+                        <option value="Fiction">Fiction</option>
+                        <option value="Science">Science</option>
+                        <option value="History">History</option>
+                        <option value="Biography">Biography</option>
+                    </select>
+
+                    <select id="sortBy" class="select-filter">
+                        <option value="default">Default Order</option>
+                        <option value="title-asc">Title (A-Z)</option>
+                        <option value="title-desc">Title (Z-A)</option>
+                        <option value="year-newest">Year (Newest)</option>
+                    </select>
+
+                    <button id="clear-all-btn" class="btn btn-danger" title="Reset All Data">
+                        <i class="fa-solid fa-arrow-rotate-left"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+                <table class="vip-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Book Details</th>
+                            <th>Category</th>
+                            <th>ISBN</th>
+                            <th>Year</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="book-list">
+                        </tbody>
+                </table>
+            </div>
+
+            <div id="no-books-msg" class="empty-state hidden">
+                <div class="empty-icon"><i class="fa-solid fa-folder-open"></i></div>
+                <h3>No Books Found</h3>
+                <p>Try adjusting your search query or add a new record!</p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 Library Central System | Final Assignment — Modern Web & App Development</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
