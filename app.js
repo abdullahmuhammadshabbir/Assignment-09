@@ -32,11 +32,9 @@ function renderDashboard() {
     filterAndDisplayBooks();
 }
 
-// Stats Counters Update Karna
 function updateCounters() {
     statTotal.textContent = books.length;
     
-    // Simple Array Filter for counts
     let availableCount = 0;
     let issuedCount = 0;
 
@@ -94,9 +92,8 @@ function displayBooks(booksToRender) {
 
 
 bookForm.addEventListener('submit', function (e) {
-    e.preventDefault(); // Default submit refresh ko rokna
+    e.preventDefault(); 
 
-    // Form Object banana
     const bookData = {
         bookTitle: bookTitleInput.value.trim(),
         authorName: authorNameInput.value.trim(),
@@ -109,11 +106,11 @@ bookForm.addEventListener('submit', function (e) {
     const editIndex = parseInt(editIndexInput.value);
 
     if (editIndex === -1) {
-        // [CREATE]: Array me nayi book add karna
+       
         books.push(bookData);
         showToast("✨ Book added successfully!");
     } else {
-        // [UPDATE]: Purani book ko update karna
+        
         books[editIndex] = bookData;
         showToast("✏️ Book updated successfully!");
         resetFormState();
@@ -157,7 +154,6 @@ function resetFormState() {
 
 function deleteBook(index) {
     if (confirm("Are you sure you want to delete this record?")) {
-        // Splice method se delete karna
         books.splice(index, 1);
         saveToLocalStorage();
         renderDashboard();
@@ -195,7 +191,6 @@ function filterAndDisplayBooks() {
     const selectedCategory = filterCategory.value;
     const sortOption = sortBySelect.value;
 
-    // Filter Logic
     let filtered = books.filter(function (book) {
         const matchesSearch = book.bookTitle.toLowerCase().includes(searchTerm) ||
             book.authorName.toLowerCase().includes(searchTerm);
@@ -205,7 +200,6 @@ function filterAndDisplayBooks() {
         return matchesSearch && matchesCategory;
     });
 
-    // Sorting Logic
     if (sortOption === 'title-asc') {
         filtered.sort((a, b) => a.bookTitle.localeCompare(b.bookTitle));
     } else if (sortOption === 'title-desc') {
